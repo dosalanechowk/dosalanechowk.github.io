@@ -176,7 +176,7 @@ h1 {
 .menu-grid img {
     width: 100%;
     border-radius: 18px;
-    box-shadow: 0 12px 30px rgba(0,0,0,.18);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
     transition: .3s;
     cursor: zoom-in;
 }
@@ -204,18 +204,159 @@ h1 {
 
     .menu-grid {
 
-        grid-template-columns: repeat(2,1fr);
+        grid-template-columns: repeat(2, 1fr);
 
     }
 
 }
 
-@media (max-width:768px){
+@media (max-width:768px) {
 
-    .menu-container{
+    .menu-container {
 
-        padding:20px;
+        padding: 20px;
 
     }
 
+}
+
+
+/* ================================
+MENU BOOK
+================================ */
+
+.menu-book {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    margin: 25px auto 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+/* Menu Page */
+
+.menu-page {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+
+    border-radius: 12px;
+    background: #fff;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+
+    touch-action: pan-y;
+
+}
+
+/* Menu Image */
+
+.menu-page img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    max-height: 75vh;
+
+    object-fit: contain;
+
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Navigation Buttons */
+
+.page-btn {
+    position: absolute;
+
+    width: 45px;
+    height: 45px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.65);
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    z-index: 10;
+
+    font-size: 18px;
+
+    transition: all 0.2s ease;
+}
+
+.page-btn:hover {
+    background: rgba(0, 0, 0, 0.85);
+    transform: scale(1.08);
+}
+
+/* Previous */
+
+.prev-btn {
+    left: 10px;
+}
+
+/* Next */
+
+.next-btn {
+    right: 10px;
+}
+
+/* Page Counter */
+
+.page-counter {
+    text-align: center;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    margin: 12px 0 20px;
+
+    color: #555;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .menu-book {
+        margin-top: 20px;
+    }
+
+    .menu-page {
+        border-radius: 8px;
+    }
+
+    .menu-page img {
+        max-height: 70vh;
+    }
+
+    .page-btn {
+        width: 38px;
+        height: 38px;
+
+        font-size: 15px;
+    }
+
+    .prev-btn {
+        left: 6px;
+    }
+
+    .next-btn {
+        right: 6px;
+    }
 }

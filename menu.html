@@ -1,51 +1,175 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu | DosaLane Lucknow Chowk</title>
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+```
+<title>Menu | DosaLane Lucknow Chowk</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<link rel="stylesheet" href="style.css">
+```
+
 </head>
 
 <body>
 
 <div class="container">
 
-    <a href="index.html" class="back-btn">
-        <i class="fa-solid fa-arrow-left"></i>
-        Back
-    </a>
+```
+<!-- Back Button -->
+<a href="index.html" class="back-btn">
+    <i class="fa-solid fa-arrow-left"></i>
+    Back
+</a>
 
-    <div class="logo">
-        <img src="images/DosaLaneLogo.jpeg" alt="DosaLane Logo">
+<!-- Logo -->
+<div class="logo">
+    <img src="images/DosaLaneLogo.jpeg" alt="DosaLane Logo">
+</div>
+
+<h1>🍽️ Our Menu</h1>
+
+<!-- Book -->
+<div class="menu-book">
+
+    <!-- Previous Button -->
+    <button class="page-btn prev-btn" onclick="previousPage()">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <!-- Page -->
+    <div class="menu-page" id="menuPage">
+        <img
+            id="menuImage"
+            src="images/menu-1.png"
+            alt="DosaLane Menu Page 1"
+        >
     </div>
 
-    <h1>🍽️ Our Menu</h1>
-
-    <p class="subtitle">
-        We're putting the finishing touches on our delicious menu.
-        <br><br>
-        <strong>Coming Soon!</strong>
-    </p>
-
-    <a class="button"
-       href="https://maps.app.goo.gl/YyJaqDy7BtWkkEZb9"
-       target="_blank">
-
-        <i class="fa-solid fa-location-dot"></i>
-        Visit Us
-    </a>
-
-    <div class="footer">
-        Thank you for your patience ❤️
-    </div>
+    <!-- Next Button -->
+    <button class="page-btn next-btn" onclick="nextPage()">
+        <i class="fa-solid fa-chevron-right"></i>
+    </button>
 
 </div>
+
+<!-- Page Counter -->
+<div class="page-counter">
+    <span id="pageNumber">1</span> / 16
+</div>
+
+<!-- Visit Us -->
+<a class="button"
+   href="https://maps.app.goo.gl/YyJaqDy7BtWkkEZb9"
+   target="_blank"
+   rel="noopener noreferrer">
+
+    <i class="fa-solid fa-location-dot"></i>
+    Visit Us
+
+</a>
+```
+
+</div>
+
+<script>
+
+    let currentPage = 1;
+    const totalPages = 16;
+
+    const menuImage = document.getElementById("menuImage");
+    const pageNumber = document.getElementById("pageNumber");
+
+    function showPage(page) {
+
+        if (page < 1 || page > totalPages) {
+            return;
+        }
+
+        currentPage = page;
+
+        menuImage.src = `images/menu-${currentPage}.png`;
+        menuImage.alt = `DosaLane Menu Page ${currentPage}`;
+
+        pageNumber.textContent = currentPage;
+    }
+
+    function nextPage() {
+
+        if (currentPage < totalPages) {
+            showPage(currentPage + 1);
+        }
+
+    }
+
+    function previousPage() {
+
+        if (currentPage > 1) {
+            showPage(currentPage - 1);
+        }
+
+    }
+
+
+    /* Keyboard Navigation */
+
+    document.addEventListener("keydown", function(event) {
+
+        if (event.key === "ArrowRight") {
+            nextPage();
+        }
+
+        if (event.key === "ArrowLeft") {
+            previousPage();
+        }
+
+    });
+
+
+    /* Mobile Swipe */
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    const menuPage = document.getElementById("menuPage");
+
+    menuPage.addEventListener("touchstart", function(event) {
+
+        touchStartX = event.changedTouches[0].screenX;
+
+    });
+
+    menuPage.addEventListener("touchend", function(event) {
+
+        touchEndX = event.changedTouches[0].screenX;
+
+        handleSwipe();
+
+    });
+
+    function handleSwipe() {
+
+        const swipeDistance = touchEndX - touchStartX;
+
+        if (Math.abs(swipeDistance) < 50) {
+            return;
+        }
+
+        if (swipeDistance < 0) {
+            nextPage();
+        } else {
+            previousPage();
+        }
+
+    }
+
+</script>
 
 </body>
 </html>
