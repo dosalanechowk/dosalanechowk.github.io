@@ -117,6 +117,7 @@ h1 {
         padding: 25px;
     }
 
+
     .logo img {
         max-width: 220px;
     }
@@ -134,6 +135,8 @@ h1 {
     .button {
         font-size: 17px;
     }
+
+
 }
 
 /* Large Screens */
@@ -143,11 +146,13 @@ h1 {
         max-width: 850px;
     }
 
+
     .logo img {
         max-width: 330px;
     }
-}
 
+
+}
 
 /* Second Button */
 
@@ -202,15 +207,18 @@ h1 {
 
 @media (min-width: 900px) {
 
+
     .menu-grid {
 
         grid-template-columns: repeat(2, 1fr);
 
     }
 
+
 }
 
 @media (max-width:768px) {
+
 
     .menu-container {
 
@@ -218,8 +226,8 @@ h1 {
 
     }
 
-}
 
+}
 
 /* ================================
 MENU BOOK
@@ -231,9 +239,11 @@ MENU BOOK
     max-width: 700px;
     margin: 25px auto 10px;
 
+
     display: flex;
     align-items: center;
     justify-content: center;
+
 
 }
 
@@ -245,6 +255,7 @@ MENU BOOK
     justify-content: center;
     align-items: center;
 
+
     overflow: hidden;
 
     border-radius: 12px;
@@ -254,12 +265,14 @@ MENU BOOK
 
     touch-action: pan-y;
 
+
 }
 
 /* Menu Image */
 
 .menu-page img {
     display: block;
+
 
     width: 100%;
     height: auto;
@@ -270,12 +283,15 @@ MENU BOOK
 
     user-select: none;
     -webkit-user-drag: none;
+
+
 }
 
 /* Navigation Buttons */
 
 .page-btn {
     position: absolute;
+
 
     width: 45px;
     height: 45px;
@@ -297,6 +313,8 @@ MENU BOOK
     font-size: 18px;
 
     transition: all 0.2s ease;
+
+
 }
 
 .page-btn:hover {
@@ -321,17 +339,21 @@ MENU BOOK
 .page-counter {
     text-align: center;
 
+
     font-size: 16px;
     font-weight: 600;
 
     margin: 12px 0 20px;
 
     color: #555;
+
+
 }
 
 /* Mobile */
 
 @media (max-width: 600px) {
+
 
     .menu-book {
         margin-top: 20px;
@@ -359,4 +381,6 @@ MENU BOOK
     .next-btn {
         right: 6px;
     }
+
+
 }
