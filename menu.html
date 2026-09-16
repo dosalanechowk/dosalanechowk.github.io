@@ -8,6 +8,8 @@
 
 
 <title>Menu | DosaLane Lucknow Chowk</title>
+<link rel="icon" href="images/DosaLaneLogo.jpeg" type="image/jpeg">
+<link rel="apple-touch-icon" href="images/DosaLaneLogo.jpeg">
 
 <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,7 +21,7 @@
 
 <body>
 
-<div class="container">
+<main class="container menu-container">
 
 
 <!-- Back Button -->
@@ -28,18 +30,18 @@
     Back
 </a>
 
-<!-- Logo -->
-<div class="logo">
-    <img src="images/DosaLaneLogo.jpeg" alt="DosaLane Logo">
-</div>
-
-<h1>🍽️ Our Menu</h1>
+<header class="menu-header">
+    <div class="logo menu-logo">
+        <img src="images/DosaLaneLogo.jpeg" alt="DosaLane Logo">
+    </div>
+    <h1>🍽️ Our Menu</h1>
+</header>
 
 <!-- Book -->
 <div class="menu-book">
 
     <!-- Previous Button -->
-    <button class="page-btn prev-btn" onclick="previousPage()">
+    <button class="page-btn prev-btn" type="button" aria-label="Previous menu page" aria-controls="menuPage">
         <i class="fa-solid fa-chevron-left"></i>
     </button>
 
@@ -49,19 +51,33 @@
             id="menuImage"
             src="images/menu-1.png"
             alt="DosaLane Menu Page 1"
+            decoding="async"
         >
     </div>
 
     <!-- Next Button -->
-    <button class="page-btn next-btn" onclick="nextPage()">
+    <button class="page-btn next-btn" type="button" aria-label="Next menu page" aria-controls="menuPage">
         <i class="fa-solid fa-chevron-right"></i>
     </button>
 
 </div>
 
+<div class="menu-tools" role="group" aria-label="Menu zoom controls">
+    <button class="zoom-btn" id="zoomOut" type="button" aria-label="Zoom out" title="Zoom out" disabled>
+        <i class="fa-solid fa-minus" aria-hidden="true"></i>
+    </button>
+    <button class="zoom-reset" id="zoomReset" type="button" aria-label="Reset zoom" title="Reset zoom" disabled>
+        <span id="zoomLevel">100%</span>
+    </button>
+    <button class="zoom-btn" id="zoomIn" type="button" aria-label="Zoom in" title="Zoom in">
+        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+    </button>
+</div>
+<p class="menu-help">Use the arrows or swipe to change pages. When zoomed in, drag the menu to explore it.</p>
+
 <!-- Page Counter -->
-<div class="page-counter">
-    <span id="pageNumber">1</span> / 16
+<div class="page-counter" aria-live="polite" aria-atomic="true">
+    Page <span id="pageNumber">1</span> of <span id="totalPages">16</span>
 </div>
 
 <!-- Visit Us -->
@@ -75,8 +91,7 @@
 
 </a>
 
-
-</div>
+</main>
 
 <script>
 
@@ -85,6 +100,17 @@
 
     const menuImage = document.getElementById("menuImage");
     const pageNumber = document.getElementById("pageNumber");
+    const previousButton = document.querySelector(".prev-btn");
+    const nextButton = document.querySelector(".next-btn");
+    const zoomInButton = document.getElementById("zoomIn");
+    const zoomOutButton = document.getElementById("zoomOut");
+    const zoomResetButton = document.getElementById("zoomReset");
+    const zoomLevel = document.getElementById("zoomLevel");
+    const menuPage = document.getElementById("menuPage");
+    const minZoom = 1;
+    const maxZoom = 2.5;
+    const zoomStep = 0.25;
+    let zoom = minZoom;
 
     function showPage(page) {
 
@@ -98,7 +124,28 @@
         menuImage.alt = `DosaLane Menu Page ${currentPage}`;
 
         pageNumber.textContent = currentPage;
+        previousButton.disabled = currentPage === 1;
+        nextButton.disabled = currentPage === totalPages;
+        setZoom(minZoom);
+
+        const adjacentPage = currentPage < totalPages ? currentPage + 1 : currentPage - 1;
+        const preloadImage = new Image();
+        preloadImage.src = `images/menu-${adjacentPage}.png`;
     }
+
+    previousButton.addEventListener("click", previousPage);
+    nextButton.addEventListener("click", nextPage);
+    zoomInButton.addEventListener("click", function() {
+        setZoom(zoom + zoomStep);
+    });
+    zoomOutButton.addEventListener("click", function() {
+        setZoom(zoom - zoomStep);
+    });
+    zoomResetButton.addEventListener("click", function() {
+        setZoom(minZoom);
+    });
+
+    showPage(currentPage);
 
     function nextPage() {
 
@@ -116,10 +163,33 @@
 
     }
 
+    function setZoom(nextZoom) {
+
+        zoom = Math.min(maxZoom, Math.max(minZoom, Math.round(nextZoom * 100) / 100));
+        menuPage.style.setProperty("--menu-zoom", `${Math.round(zoom * 100)}%`);
+        zoomLevel.textContent = `${Math.round(zoom * 100)}%`;
+
+        zoomOutButton.disabled = zoom <= minZoom;
+        zoomInButton.disabled = zoom >= maxZoom;
+        zoomResetButton.disabled = zoom === minZoom;
+
+        if (zoom === minZoom) {
+            menuPage.scrollLeft = 0;
+            menuPage.scrollTop = 0;
+        }
+
+        menuPage.classList.toggle("is-zoomed", zoom > minZoom);
+
+    }
+
 
     /* Keyboard Navigation */
 
     document.addEventListener("keydown", function(event) {
+
+        if (event.target.matches("input, textarea, select, [contenteditable='true']")) {
+            return;
+        }
 
         if (event.key === "ArrowRight") {
             nextPage();
@@ -137,8 +207,6 @@
     let touchStartX = 0;
     let touchEndX = 0;
 
-    const menuPage = document.getElementById("menuPage");
-
     menuPage.addEventListener("touchstart", function(event) {
 
         touchStartX = event.changedTouches[0].screenX;
@@ -154,6 +222,10 @@
     });
 
     function handleSwipe() {
+
+        if (zoom > minZoom) {
+            return;
+        }
 
         const swipeDistance = touchEndX - touchStartX;
 
